@@ -1,4 +1,5 @@
 
+using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
 
@@ -23,8 +24,13 @@ namespace E_Commerce.API
 
             });
 
-
+            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
             var app = builder.Build();
+
+           
+           using  var scope = app.Services.CreateScope();
+            var dataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+            dataSeeding.SeedData();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
