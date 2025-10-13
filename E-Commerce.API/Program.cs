@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using Presistence.Data;
+
 namespace E_Commerce.API
 {
     public class Program
@@ -14,6 +17,13 @@ namespace E_Commerce.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<StoreDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -22,6 +32,7 @@ namespace E_Commerce.API
                 app.UseSwagger(); // miiddleware of swagger
                 app.UseSwaggerUI(); //middleware of swagger UI
             }
+
 
             app.UseHttpsRedirection();
 
