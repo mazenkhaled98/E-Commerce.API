@@ -5,14 +5,15 @@ namespace Presistence.Data
 {
     public class DataSeeding(StoreDbContext _dbContext) : IDataSeeding
     {
-        public void SeedData()
+        public async Task SeedDataAsync()
         {
-            //any pending migrations, apply them
+            //any pending migrations, apply them to database
             try
             {
-                if (_dbContext.Database.GetPendingMigrations().Any())
+                var pendingMigrations = await _dbContext.Database.GetPendingMigrationsAsync();
+                if (pendingMigrations.Any())
                 {
-                    _dbContext.Database.Migrate();
+                   await _dbContext.Database.MigrateAsync();
                 }
 
 
@@ -21,37 +22,37 @@ namespace Presistence.Data
 
                 if (!_dbContext.ProductBrands.Any())
                 {
-                    var brandsData = File.ReadAllText("../Infrastructure/Presistence/Data/DataSeed/brands.json");
-                    var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
+                    var brandsData = File.OpenRead("../Infrastructure/Presistence/Data/DataSeed/brands.json");
+                    var brands =await JsonSerializer.DeserializeAsync<List<ProductBrand>>(brandsData);
                     if (brands != null && brands.Any())
                     {
-                        _dbContext.ProductBrands.AddRange(brands);
+                        await _dbContext.ProductBrands.AddRangeAsync(brands);
                     }
                 }
 
 
                 if (!_dbContext.ProductTypes.Any())
                 {
-                    var typesData = File.ReadAllText("../Infrastructure/Presistence/Data/DataSeed/types.json");
-                    var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
+                    var typesData = File.OpenRead("../Infrastructure/Presistence/Data/DataSeed/types.json");
+                    var types = await JsonSerializer.DeserializeAsync<List<ProductType>>(typesData);
                     if (types != null && types.Any())
                     {
-                        _dbContext.ProductTypes.AddRange(types);
+                      await  _dbContext.ProductTypes.AddRangeAsync(types);
                     }
                 }
 
 
                 if (!_dbContext.Products.Any())
                 {
-                    var productsData = File.ReadAllText("../Infrastructure/Presistence/Data/DataSeed/products.json");
-                    var products = JsonSerializer.Deserialize<List<Product>>(productsData);
+                    var productsData = File.OpenRead("../Infrastructure/Presistence/Data/DataSeed/products.json");
+                    var products =await JsonSerializer.DeserializeAsync<List<Product>>(productsData);
                     if (products != null && products.Any())
                     {
-                        _dbContext.Products.AddRange(products);
+                       await _dbContext.Products.AddRangeAsync(products);
                     }
 
                 }
-                _dbContext.SaveChanges();
+               await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
