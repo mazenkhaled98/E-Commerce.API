@@ -19,7 +19,7 @@ namespace Presistence.Repositories
 
         public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : BaseEntity<TKey>
         => (IGenericRepository<TEntity, TKey>)
-            _repositories.GetOrAdd(typeof(TEntity).Name,(_)=> new GenericRepository<TEntity, TKey>(_dbContext));
+            _repositories.GetOrAdd(typeof(TEntity).Name,(_)=> new GenericRepository<TEntity, TKey>(_dbContext)); // lw fe key da5l  mogod yrg3 al repo ale mogoda  , lw msh fe y3ml add w y3ml instance gdeda
         //dictionary ==> key , value
         //key ==>name of entity [product] => string
         //value ==> obj from generic repository [new GenericRepository<Product,int>] => object  
