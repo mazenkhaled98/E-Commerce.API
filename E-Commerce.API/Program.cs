@@ -1,9 +1,14 @@
 
+using Domain.Contracts;
+using Microsoft.EntityFrameworkCore;
+using Presistence.Data;
+using System.Threading.Tasks;
+
 namespace E_Commerce.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +19,19 @@ namespace E_Commerce.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<StoreDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+            });
+
+            builder.Services.AddScoped<IDataSeeding, DataSeeding>();
             var app = builder.Build();
+
+           
+           using  var scope = app.Services.CreateScope();
+            var dataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+           await dataSeeding.SeedDataAsync();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -22,6 +39,7 @@ namespace E_Commerce.API
                 app.UseSwagger(); // miiddleware of swagger
                 app.UseSwaggerUI(); //middleware of swagger UI
             }
+
 
             app.UseHttpsRedirection();
 
