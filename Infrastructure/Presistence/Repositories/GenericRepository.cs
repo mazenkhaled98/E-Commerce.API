@@ -29,11 +29,7 @@ namespace Presistence.Repositories
 
         #region Specifications
         public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specifications)
-            =>await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).ToListAsync();
-            
-
-
-        
+        => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).ToListAsync();
 
         public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specifications)
         => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();

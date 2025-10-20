@@ -7,7 +7,7 @@ namespace Domain.Contracts
     {
 
         //signature for prop for [expression => where]
-        public Expression<Func<TEntity,bool>> Criteria { get; }
+        public Expression<Func<TEntity,bool>>? Criteria { get; }
 
         //signature for prop for list [expression => includes]
         public List<Expression<Func<TEntity, object>>> IncludeExpressions { get; }
