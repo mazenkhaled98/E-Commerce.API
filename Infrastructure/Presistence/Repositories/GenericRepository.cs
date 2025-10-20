@@ -33,6 +33,9 @@ namespace Presistence.Repositories
 
         public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specifications)
         => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();
+
+        public async Task<int> CountAsync(ISpecifications<TEntity, Tkey> specifications)
+       =>await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).CountAsync();
         #endregion
 
     }

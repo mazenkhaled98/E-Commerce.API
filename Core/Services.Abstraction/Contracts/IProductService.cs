@@ -7,7 +7,7 @@ namespace Services.Contracts
     public interface IProductService
     {
         //getallproducts
-        Task<IEnumerable<ProductResultDto>> GetAllProductsAsync(ProductSpecificationsParameters parameters);
+        Task<PaginatedResult<ProductResultDto>> GetAllProductsAsync(ProductSpecificationsParameters parameters);
         //getallbrands
         Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync();
         //getalltypes

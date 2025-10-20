@@ -15,7 +15,7 @@ namespace Shared
 
         public string? search { get; set; }
 
-        public int PageIndex { get; set; }
+        public int PageIndex { get; set; } = 1;
 
         private int _PageSize= defaultPageSize;
 
