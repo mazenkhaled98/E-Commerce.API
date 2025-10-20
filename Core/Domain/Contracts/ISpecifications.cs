@@ -11,5 +11,13 @@ namespace Domain.Contracts
 
         //signature for prop for list [expression => includes]
         public List<Expression<Func<TEntity, object>>> IncludeExpressions { get; }
+
+
+        //signature for prop for orderby [expression => orderby]
+
+        public Expression<Func<TEntity, object>> OrderBy { get; }
+
+        //signature for prop for orderbydesc [expression => orderbydesc]
+        public Expression<Func<TEntity, object>> OrderByDescending { get; }
     }
 }

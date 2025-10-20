@@ -13,14 +13,25 @@ namespace Presistence
             {
                 query = query.Where(specifications.Criteria);
             }
+            // Apply ordering
+            if (specifications.OrderBy != null)
+            {
+                query = query.OrderBy(specifications.OrderBy);
+            }
+
+            if (specifications.OrderByDescending != null)
+            {
+                query = query.OrderByDescending(specifications.OrderByDescending);
+            }
             // Apply includes
-            if(specifications.IncludeExpressions != null && specifications.IncludeExpressions.Count>0)
+            if (specifications.IncludeExpressions != null && specifications.IncludeExpressions.Count>0)
             {
                 foreach (var includeExpression in specifications.IncludeExpressions)
                 {
                     query = query.Include(includeExpression);
                 }
             }
+          
             return query;
         }
     }

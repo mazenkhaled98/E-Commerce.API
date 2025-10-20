@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction.Contracts;
 using Shared.Dtos;
+using Shared.Enums;
 
 namespace Presentation.Controllers
 {
@@ -10,9 +11,9 @@ namespace Presentation.Controllers
     {
         //Endpoint ==> getallProducts
         [HttpGet ()] //baseurl/api/products
-        public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProductsAsync(int? productId,int? brandId)
+        public async Task<ActionResult<IEnumerable<ProductResultDto>>> GetAllProductsAsync(int? productId,int? brandId,ProductSortingOptions sort)
         {
-          var products=  await _serviceManager.ProductService.GetAllProductsAsync(productId,brandId);
+          var products=  await _serviceManager.ProductService.GetAllProductsAsync(productId,brandId,sort);
             return Ok(products);
 
 
