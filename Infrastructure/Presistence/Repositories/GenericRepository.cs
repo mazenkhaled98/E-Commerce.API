@@ -28,18 +28,15 @@ namespace Presistence.Repositories
 
 
         #region Specifications
-        public Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specifications)
-        {
-
-           
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specifications)
+            =>await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).ToListAsync();
             
 
-        }
 
-        public Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specifications)
-        {
-            throw new NotImplementedException();
-        } 
+        
+
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specifications)
+        => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();
         #endregion
 
     }
