@@ -34,7 +34,9 @@ namespace Services.Specifications
         #region sorting
         public Expression<Func<TEntity, object>> OrderBy { get; private set; } 
 
-        public Expression<Func<TEntity, object>> OrderByDescending { get; private set; }  
+        public Expression<Func<TEntity, object>> OrderByDescending { get; private set; }
+
+   
 
         protected void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
         {
@@ -44,6 +46,15 @@ namespace Services.Specifications
         {
             OrderByDescending = orderByDescExpression;
         }
+        #endregion
+
+        #region Pagination
+        public int Skip => throw new NotImplementedException();
+
+        public int Take => throw new NotImplementedException();
+
+        public bool IsPaginated => throw new NotImplementedException();
+
         #endregion
     }
 }

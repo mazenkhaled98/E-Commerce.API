@@ -19,5 +19,13 @@ namespace Domain.Contracts
 
         //signature for prop for orderbydesc [expression => orderbydesc]
         public Expression<Func<TEntity, object>> OrderByDescending { get; }
+
+        //pagination [skip - take] [ints]
+        public int Skip { get; }
+
+        public int Take { get; }
+
+        public bool IsPaginated { get; }
+
     }
 }
