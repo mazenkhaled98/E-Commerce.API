@@ -1,4 +1,5 @@
 ﻿using Domain.Entites.ProductModule;
+using Shared;
 using Shared.Enums;
 using System.Linq.Expressions;
 
@@ -8,18 +9,18 @@ namespace Services.Specifications
     {
 
         //get products with their brands and types
-        public ProductWithBrandAndTypeSpecifications(int? typeId, int? brandId, ProductSortingOptions sort) : 
+        public ProductWithBrandAndTypeSpecifications(ProductSpecificationsParameters parameters) : 
             base(p=>
-                (!typeId.HasValue || p.TypeId==typeId) 
+                (!parameters.TypeId.HasValue || p.TypeId== parameters.TypeId) 
                  &&
-                (!brandId.HasValue || p.BrandId==brandId)
+                (!parameters.BrandId.HasValue || p.BrandId== parameters.BrandId)
             )
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductType);
 
             //switch case for sorting
-            switch (sort)
+            switch (parameters.sort)
             {
                 case ProductSortingOptions.PriceAsc:
                     AddOrderBy(p => p.Price);
