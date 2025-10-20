@@ -48,12 +48,19 @@ namespace Services.Specifications
         }
         #endregion
 
-        #region Pagination
-        public int Skip => throw new NotImplementedException();
+        #region Pagination [skip - take]
+        public int Skip { get; private set; }
 
-        public int Take => throw new NotImplementedException();
+        public int Take { get; private set; }
 
-        public bool IsPaginated => throw new NotImplementedException();
+        public bool IsPaginated { get; private set; }
+
+        protected void ApplyPagination(int pageSize,int pageIndex)
+        {
+            Skip = (pageIndex - 1) * pageSize;
+            Take = pageSize;
+            IsPaginated = true;
+        }
 
         #endregion
     }

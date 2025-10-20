@@ -31,7 +31,12 @@ namespace Presistence
                     query = query.Include(includeExpression);
                 }
             }
-          
+            // Apply pagination
+            if (specifications.IsPaginated)
+            {
+                query = query.Skip(specifications.Skip).Take(specifications.Take);
+            }
+
             return query;
         }
     }
