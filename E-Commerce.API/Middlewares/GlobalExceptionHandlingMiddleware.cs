@@ -18,11 +18,11 @@ namespace E_Commerce.API.Middlewares
         {
             try
             {
-                //endpointnotfounderror 
-               
+           
 
                  await _next(context);
-                if(context.Response.StatusCode == StatusCodes.Status404NotFound)
+                //endpoint not found error 
+                if (context.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
                     await HandleNotFoundApiAsync(context);
                 }
