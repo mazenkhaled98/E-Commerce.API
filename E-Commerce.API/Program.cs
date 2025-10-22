@@ -1,5 +1,6 @@
 
 using Domain.Contracts;
+using E_Commerce.API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
 using Presistence.Repositories;
@@ -39,6 +40,9 @@ namespace E_Commerce.API
             var dataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
            await dataSeeding.SeedDataAsync();
 
+
+            //middleware for exception handling can be added here
+            app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
