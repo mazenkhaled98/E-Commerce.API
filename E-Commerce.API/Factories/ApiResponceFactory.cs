@@ -5,7 +5,7 @@ namespace E_Commerce.API.Factories
 {
     public class ApiResponceFactory
     {
-        public static IActionResult CustonValidationErrorResponse(ActionContext context)
+        public static IActionResult CustomValidationErrorResponse(ActionContext context)
         {
             //context=> errors,key [field]   
             //context.ModelState ==> <string , ModelStateEntry>
