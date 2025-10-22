@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Presistence.Data;
 using Presistence.Repositories;
+using StackExchange.Redis;
 
 namespace E_Commerce.API.Extensions
 {
@@ -17,6 +18,11 @@ namespace E_Commerce.API.Extensions
 
             services.AddScoped<IDataSeeding, DataSeeding>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddSingleton<IConnectionMultiplexer>((_) =>
+            {
+               return ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection")!);
+            });
             return services;
         }
     }
