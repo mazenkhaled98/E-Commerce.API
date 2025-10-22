@@ -12,6 +12,10 @@ namespace Presentation.Controllers
     [Route("api/[controller]")]
     public class ProductsController(IServiceManager _serviceManager) : ControllerBase
     {
+
+        [ProducesResponseType(typeof(ProductResultDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         //Endpoint ==> getallProducts
         [HttpGet ()] //baseurl/api/products
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameters parameters)
