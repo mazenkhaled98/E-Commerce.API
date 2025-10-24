@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Contracts;
 using Domain.Entites.ProductModule;
+using Domain.Exceptions;
 using Services.Contracts;
 using Services.Specifications;
 using Shared;
@@ -51,7 +52,8 @@ namespace Services.Implementaitons
         {
             var specifications = new ProductWithBrandAndTypeSpecifications(id);
             var product=await _unitOfWork.GetRepository<Product, int>().GetByIdAsync(specifications);
-            return _mapper.Map<ProductResultDto?>(product);
+            //return _mapper.Map<ProductResultDto?>(product);
+           return product is null ? throw new ProductNotFoundException(id) : _mapper.Map<ProductResultDto>(product);
         }
     }
 }
