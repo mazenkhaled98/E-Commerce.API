@@ -17,12 +17,26 @@ namespace Presistence.Repositories
             await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync() : 
             await _dbContext.Set<TEntity>().ToListAsync();
 
-
+       
         public async Task<TEntity?> GetByIdAsync(Tkey id)
             => await _dbContext.Set<TEntity>().FindAsync(id);
 
+  
 
         public void Update(TEntity entity)
         => _dbContext.Set<TEntity>().Update(entity);
+
+
+        #region Specifications
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> specifications)
+        => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).ToListAsync();
+
+        public async Task<TEntity?> GetByIdAsync(ISpecifications<TEntity, Tkey> specifications)
+        => await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).FirstOrDefaultAsync();
+
+        public async Task<int> CountAsync(ISpecifications<TEntity, Tkey> specifications)
+       =>await SpecificationEvaluator.CreateQuery(_dbContext.Set<TEntity>(), specifications).CountAsync();
+        #endregion
+
     }
 }
