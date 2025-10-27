@@ -8,9 +8,8 @@ using Shared.ErrorModels;
 
 namespace Presentation.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController(IServiceManager _serviceManager) : ControllerBase
+  
+    public class ProductsController(IServiceManager _serviceManager) : ApiController
     {
 
         [ProducesResponseType(typeof(ProductResultDto), StatusCodes.Status200OK)]

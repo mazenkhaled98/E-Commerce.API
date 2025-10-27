@@ -9,8 +9,9 @@ namespace Shared.Dtos.BasketModule
 
         [Range(1, double.MaxValue)]
         public decimal Price { get; init; }
-        public int Quantity { get; init; }
         [Range(1, 99)]
+        public int Quantity { get; init; }
+    
         public string PictureUrl { get; init; }= string.Empty;
     }
 }
