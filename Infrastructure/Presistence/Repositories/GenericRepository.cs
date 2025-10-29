@@ -1,5 +1,5 @@
-﻿
-using Domain.Contracts;
+﻿using Domain.Contracts;
+using Domain.Entites;
 using Presistence.Data;
 
 namespace Presistence.Repositories
