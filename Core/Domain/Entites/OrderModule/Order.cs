@@ -9,6 +9,7 @@ public class Order : BaseEntity<Guid>
     }
     public Order(string userEmail, ShippingAddress shippingAddress, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod, decimal subTotal)
     {
+        Id =Guid.NewGuid();
         UserEmail = userEmail;
         ShippingAddress = shippingAddress;
         OrderItems = orderItems;
