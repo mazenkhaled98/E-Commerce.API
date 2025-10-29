@@ -8,6 +8,8 @@ namespace Shared.ErrorModels
 
         public string ErrorMessage { get; set; }= string.Empty;
 
+        public IEnumerable<string>? Errors { get; set; }
+
         override public string ToString()
         {
             return JsonSerializer.Serialize(this);
