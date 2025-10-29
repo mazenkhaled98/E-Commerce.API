@@ -13,8 +13,6 @@ namespace Presentation.Controllers
     {
 
         [ProducesResponseType(typeof(ProductResultDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
         //Endpoint ==> getallProducts
         [HttpGet ()] //baseurl/api/products
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameters parameters)
@@ -26,9 +24,7 @@ namespace Presentation.Controllers
         }
 
         [ProducesResponseType(typeof(ProductResultDto),StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(ErrorDetails), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
+        
 
         //Endpoint ==> getProductById/{id}
         [HttpGet("{id:int}")]
