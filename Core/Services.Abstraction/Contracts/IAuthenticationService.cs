@@ -10,5 +10,6 @@ namespace Services.Abstraction.Contracts
 
         //register ==>userresultdto [displayname ,token,email] return from function, take prameter register dto ==>[phonenumber,email,password,username,displayname]
         Task<UserResultDto> RegisterAsync(RegisterDto registerDto);
+
     }
 }
