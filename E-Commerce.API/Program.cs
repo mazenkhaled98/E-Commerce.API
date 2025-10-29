@@ -29,7 +29,7 @@ namespace E_Commerce.API
 
 
             //core services extension method
-            builder.Services.AddCoreServices();
+            builder.Services.AddCoreServices(builder.Configuration);
             #endregion
 
 
@@ -48,7 +48,9 @@ namespace E_Commerce.API
             {
                 app.UseSwaggerMiddlewares();
             }
+            app.UseAuthentication();
 
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
 

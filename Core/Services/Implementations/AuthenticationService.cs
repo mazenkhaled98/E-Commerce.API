@@ -1,8 +1,10 @@
 ﻿using Domain.Entites.IdentityModule;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Services.Abstraction.Contracts;
+using Shared.Common;
 using Shared.Dtos.IdentityModule;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,8 +13,9 @@ using static System.Net.WebRequestMethods;
 
 namespace Services.Implementations
 {
-    internal class AuthenticationService(UserManager<User> _userManager) : IAuthenticationService
+    internal class AuthenticationService(UserManager<User> _userManager ,IOptions<JwtOptions> _options) : IAuthenticationService
     {
+       
         public async Task<UserResultDto> LoginAsync(LoginDto loginDto)
         {
          var user =await  _userManager.FindByEmailAsync(loginDto.Email);
@@ -54,7 +57,7 @@ namespace Services.Implementations
         //helper method
         private async Task<string> CreateTokenAsync(User user)
         {
-           
+           var JwtOptions  = _options.Value;
             //claims
             //name,email ,roles
             var claims = new List<Claim>
@@ -69,7 +72,7 @@ namespace Services.Implementations
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             //secret key
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c091c1e20e9078dbbaa5649522b76fdeee0a0a440cc00fa9b76fa1e75c92e40b"));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.SecretKey));
 
             //algorithm [algorithm + key]
             var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -77,9 +80,10 @@ namespace Services.Implementations
             //create token 
             var token =new JwtSecurityToken
                 (
-                issuer: "http://localhost:5135/",
-                audience:"angularproject",claims:claims,
-                expires:DateTime.UtcNow.AddDays(30),
+                issuer: JwtOptions.Issuer,
+                audience:JwtOptions.Audience,
+                claims:claims,
+                expires:DateTime.UtcNow.AddDays(JwtOptions.ExpirationInDays),
                 signingCredentials:signingCredentials
                 );
 
