@@ -3,6 +3,19 @@ namespace Domain.Entites.OrderModule;
 
 public class Order : BaseEntity<Guid>
 {
+    public Order()
+    {
+
+    }
+    public Order(string userEmail, ShippingAddress shippingAddress, ICollection<OrderItem> orderItems, DeliveryMethod deliveryMethod, decimal subTotal)
+    {
+        UserEmail = userEmail;
+        ShippingAddress = shippingAddress;
+        OrderItems = orderItems;
+        DeliveryMethod = deliveryMethod;
+        SubTotal = subTotal;
+    }
+
     public string UserEmail { get; set; } = string.Empty;
 
     public ShippingAddress ShippingAddress { get; set; }
