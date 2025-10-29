@@ -1,8 +1,13 @@
 ﻿using Domain.Entites.IdentityModule;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Services.Abstraction.Contracts;
 using Shared.Dtos.IdentityModule;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace Services.Implementations
 {
@@ -20,7 +25,7 @@ namespace Services.Implementations
             {
                 throw new UnauthorizedException();
             }
-            return new UserResultDto(user.DisplayName, "Token", user.Email);
+            return new UserResultDto(user.DisplayName, await CreateTokenAsync(user), user.Email);
           
 
         }
@@ -42,7 +47,47 @@ namespace Services.Implementations
                 throw new ValidationException(errors);
             }
 
-            return new UserResultDto(user.DisplayName, "Token", user.Email);
+            return new UserResultDto(user.DisplayName, await CreateTokenAsync(user), user.Email);
+        }
+
+        //TOKEN ==> encrypted string ==> JWT
+        //helper method
+        private async Task<string> CreateTokenAsync(User user)
+        {
+           
+            //claims
+            //name,email ,roles
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,user.DisplayName),
+                new Claim(ClaimTypes.Email,user.Email),
+                
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            //secret key
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c091c1e20e9078dbbaa5649522b76fdeee0a0a440cc00fa9b76fa1e75c92e40b"));
+
+            //algorithm [algorithm + key]
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            //create token 
+            var token =new JwtSecurityToken
+                (
+                issuer: "http://localhost:5135/",
+                audience:"angularproject",claims:claims,
+                expires:DateTime.UtcNow.AddDays(30),
+                signingCredentials:signingCredentials
+                );
+
+            //write token
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
+
         }
     }
 }
