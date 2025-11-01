@@ -10,6 +10,7 @@ namespace E_Commerce.API.Extensions
             using var scope = app.Services.CreateScope();
             var dataSeeding = scope.ServiceProvider.GetRequiredService<IDataSeeding>();
             await dataSeeding.SeedDataAsync();
+            await dataSeeding.SeedIdentityDataAsync();
 
             return app;
         }

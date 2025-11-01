@@ -1,9 +1,11 @@
 ﻿using Domain.Contracts;
+using Domain.Entites.IdentityModule;
+using Microsoft.AspNetCore.Identity;
 using System.Text.Json;
 
 namespace Presistence.Data
 {
-    public class DataSeeding(StoreDbContext _dbContext) : IDataSeeding
+    public class DataSeeding(StoreDbContext _dbContext , RoleManager<IdentityRole> _role ,UserManager<User> _user) : IDataSeeding
     {
         public async Task SeedDataAsync()
         {
@@ -61,6 +63,52 @@ namespace Presistence.Data
             }
 
 
+        }
+
+        public async Task SeedIdentityDataAsync()
+        {
+            try
+            {
+
+                //seed roles [admin, superadmin]
+                //seed users [adminuser, superadminuser]]
+                //assign roles to users
+                if (!_role.Roles.Any())
+                {
+                    await _role.CreateAsync(new IdentityRole("Admin"));
+                    await _role.CreateAsync(new IdentityRole("SuperAdmin"));
+
+                }
+                if (!_user.Users.Any())
+                {
+                    var adminUser = new User
+                    {
+                        DisplayName = "Admin",
+                        UserName = "adminuser",
+                        Email = "Admin@gmail.com",
+                        PhoneNumber = "1234567890",
+                    };
+                    var superAdminUser = new User
+                    {
+                        DisplayName = "SuperAdmin",
+                        UserName = "superadminuser",
+                        Email = "SuperAdmin@gmail.com",
+                        PhoneNumber = "0987654321",
+                    };
+                    await _user.CreateAsync(adminUser, "P@ssw0rd1");
+                    await _user.CreateAsync(superAdminUser, "P@ssw0rd1");
+                    await _user.AddToRoleAsync(adminUser, "Admin");
+                    await _user.AddToRoleAsync(superAdminUser, "SuperAdmin");
+
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                //handle exception
+                throw;
+            }
         }
     }
 }
