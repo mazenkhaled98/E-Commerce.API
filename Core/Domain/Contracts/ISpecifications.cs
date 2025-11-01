@@ -1,4 +1,4 @@
-﻿using Domain.Entites.ProductModule;
+﻿using Domain.Entites;
 using System.Linq.Expressions;
 
 namespace Domain.Contracts

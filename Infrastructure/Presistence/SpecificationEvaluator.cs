@@ -1,4 +1,5 @@
 ﻿using Domain.Contracts;
+using Domain.Entites;
 
 namespace Presistence
 {

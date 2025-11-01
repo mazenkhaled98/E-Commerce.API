@@ -1,4 +1,4 @@
-﻿namespace Domain.Entites.ProductModule
+﻿namespace Domain.Entites
 {
     public class BaseEntity <TKey>
     {

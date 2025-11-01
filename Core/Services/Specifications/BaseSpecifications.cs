@@ -1,7 +1,5 @@
-﻿
-
-using Domain.Contracts;
-using Domain.Entites.ProductModule;
+﻿using Domain.Contracts;
+using Domain.Entites;
 using System.Formats.Tar;
 using System.Linq.Expressions;
 

@@ -1,5 +1,7 @@
 ﻿
 
+using Domain.Entites.OrderModule;
+
 namespace Presistence.Data
 {
     public class StoreDbContext : DbContext
@@ -17,5 +19,11 @@ namespace Presistence.Data
         public DbSet<ProductType> ProductTypes { get; set; }
 
         public DbSet<ProductBrand> ProductBrands { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }
