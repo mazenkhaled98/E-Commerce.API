@@ -8,7 +8,7 @@ namespace Presistence.Data.Configurations
         public void Configure(EntityTypeBuilder<Order> builder)
         {
            builder.OwnsOne(builder => builder.ShippingAddress, sa => sa.WithOwner());
-            builder.HasMany(o => o.OrderItems).WithOne();
+            builder.HasMany(o => o.OrderItems).WithOne().OnDelete(DeleteBehavior.Cascade);
             builder.Property(o=>o.PaymentStatus).HasConversion(PaymentStatus => PaymentStatus.ToString(),ps=>Enum.Parse<OrderPaymentStatus>(ps));
             builder.HasOne(o => o.DeliveryMethod).WithMany().OnDelete(DeleteBehavior.SetNull);
             builder.Property(o => o.SubTotal).HasColumnType("decimal(18,4)");

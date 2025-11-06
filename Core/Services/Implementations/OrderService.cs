@@ -27,17 +27,24 @@ namespace Services.Implementations
                     .GetByIdAsync(item.Id) ?? throw new ProductNotFoundException(item.Id);
                 orderItems.Add(CreateOrderItem(product,item));
             }
+            var orderRepository = _unitOfWork.GetRepository<Order, Guid>();
             //3] GetDeliveryMethod ==> DeliverMethodId ==> DB
             var deliveryMethod = await _unitOfWork.GetRepository<DeliveryMethod, int>()
                 .GetByIdAsync(orderRequest.DeliveryMethodId)
                 ?? throw new DeliveryMethodNotFoundException(orderRequest.DeliveryMethodId);
+            var orderExist = await orderRepository.GetByIdAsync(new OrderWithPaymentIntentIdSpecifications(basket.PaymentIntentId) );
+            if (orderExist != null)
+            {
+                orderRepository.Delete(orderExist);
+
+            }
 
             //4] Calculate SubTotal ==> OrderItems ==> OrderItem.Q * OrderItem.Price
             var subTotal = orderItems.Sum(o => o.Price * o.Quantity);
 
             //5] Create obj from order ==> params , Add DB , Save Changes
-            var orderToCreate = new Order(userEmail, address, orderItems, deliveryMethod, subTotal);
-            await _unitOfWork.GetRepository<Order, Guid>().AddAsync(orderToCreate);
+            var orderToCreate = new Order(userEmail, address, orderItems, deliveryMethod, subTotal,basket.PaymentIntentId);
+            await orderRepository.AddAsync(orderToCreate);
             await _unitOfWork.SaveChangesAsync();
 
             //6] Map <Order , OrderResult>
