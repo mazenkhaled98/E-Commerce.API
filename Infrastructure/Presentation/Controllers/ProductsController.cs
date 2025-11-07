@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Attributes;
 using Services.Abstraction.Contracts;
 using Shared;
 using Shared.Dtos.ProductModule;
@@ -14,7 +15,7 @@ namespace Presentation.Controllers
 
         [ProducesResponseType(typeof(ProductResultDto), StatusCodes.Status200OK)]
         //Endpoint ==> getallProducts
-        
+        [RedisCache(120)]
         [HttpGet ()] //baseurl/api/products
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameters parameters)
         {
