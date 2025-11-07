@@ -14,6 +14,7 @@ namespace Presentation.Controllers
 
         [ProducesResponseType(typeof(ProductResultDto), StatusCodes.Status200OK)]
         //Endpoint ==> getallProducts
+        
         [HttpGet ()] //baseurl/api/products
         public async Task<ActionResult<PaginatedResult<ProductResultDto>>> GetAllProductsAsync([FromQuery]ProductSpecificationsParameters parameters)
         {

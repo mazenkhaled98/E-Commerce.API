@@ -13,5 +13,7 @@ namespace Services.Abstraction.Contracts
         public IOrderService OrderService { get; }
 
         public IPaymentService PaymentService { get; }
+
+        public ICasheService CasheService { get; }
     }
 }
