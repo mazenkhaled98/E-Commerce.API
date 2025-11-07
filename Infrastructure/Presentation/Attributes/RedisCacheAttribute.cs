@@ -32,7 +32,7 @@ namespace Presentation.Attributes
             var resultContext = await next.Invoke();
             if (resultContext.Result is OkObjectResult okObjResult)
             {
-                await cacheService.SetCacheValueAsync(key, okObjResult, TimeSpan.FromSeconds(durationInSeconds));
+                await cacheService.SetCacheValueAsync(key, okObjResult.Value, TimeSpan.FromSeconds(durationInSeconds));
             }
 
         }
