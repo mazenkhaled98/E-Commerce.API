@@ -13,7 +13,7 @@ using Product= Domain.Entites.ProductModule.Product;
 
 namespace Services.Implementations
 {
-    internal class PaymentService(IConfiguration _configuration
+    public class PaymentService(IConfiguration _configuration
             , IBasketRepository _basketRepository,IUnitOfWork _unitOfWork, IMapper _mapper) : IPaymentService 
     {
         //public async Task<BasketDto> CreateOrUpdatePaymentIntentAsync(string basketId )

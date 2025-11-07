@@ -16,7 +16,7 @@ using static System.Net.WebRequestMethods;
 
 namespace Services.Implementations
 {
-    internal class AuthenticationService(UserManager<User> _userManager, IOptions<JwtOptions> _options,IMapper _mapper) : IAuthenticationService
+    public class AuthenticationService(UserManager<User> _userManager, IOptions<JwtOptions> _options,IMapper _mapper) : IAuthenticationService
     {
 
 
