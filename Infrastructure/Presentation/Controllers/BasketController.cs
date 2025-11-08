@@ -10,7 +10,7 @@ namespace Presentation.Controllers
     {
         //get        //BaseUrl/api/basket
         [HttpGet]
-        public async Task<ActionResult> GetBasketByIdAsync(string id)
+        public async Task<ActionResult> GetBasketByIdAsync([FromQuery] string id)
         {
             var basket = await _serviceManager.BasketService.GetBasketAsync(id);
             return Ok(basket);
@@ -25,11 +25,11 @@ namespace Presentation.Controllers
         }
 
         //delete
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteBasketAsync(string id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteBasketAsync([FromQuery] string id)
         {
-            var result = await _serviceManager.BasketService.DeleteBasketAsync(id);
-            return NoContent(); //204
+            await _serviceManager.BasketService.DeleteBasketAsync(id);
+            return NoContent();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace E_Commerce.API
 
             #region DI Container
             //web api services extension method
-            builder.Services.AddWebApiServices();
+            builder.Services.AddWebApiServices(builder.Configuration);
 
 
             // infrastructure services extension method
@@ -48,14 +48,17 @@ namespace E_Commerce.API
             {
                 app.UseSwaggerMiddlewares();
             }
-            app.UseAuthentication();
+         
 
-            app.UseAuthorization();
-
-            app.UseHttpsRedirection();
+          
 
             app.UseStaticFiles();
 
+            app.UseCors("CorsPolicy");
+
+             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.MapControllers();
 
